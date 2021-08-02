@@ -1,320 +1,3502 @@
-openapi: "3.0.2"
+openapi: 3.0.1
 info:
-  title: "OpenWeatherMap API"
-  description: "Get the current weather, daily forecast for 16 days, and a three-hour-interval forecast for 5 days for your city. Helpful stats, graphics, and this day in history charts are available for your reference. Interactive maps show precipitation, clouds, pressure, wind around your location stations. Data is available in JSON, XML, or HTML format. **Note**: This sample Swagger file covers the `current` endpoint only from the OpenWeatherMap API. <br/><br/> **Note**: All parameters are optional, but you must select at least one parameter. Calling the API by city ID (using the `id` parameter) will provide the most precise location results."
-  version: "2.5"
-  termsOfService: "https://openweathermap.org/terms"
-  contact:
-    name: "OpenWeatherMap API"
-    url: "https://openweathermap.org/api"
-    email: "some_email@gmail.com"
+  title: Kloudgaze-client-services API.
+  description: ReDoc for Kloudgaze-client-services Api.
+  termsOfService: http://swagger.io/terms/
   license:
-    name: "CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)"
-    url: "https://openweathermap.org/price"
-
+    name: Apache 2.0
+    url: http://springdoc.org
+  version: 0.0.1-SNAPSHOT
 servers:
-- url: "https://api.openweathermap.org/data/2.5"
-
+- url: http://localhost:8080/
+  description: Generated server url
 paths:
-  /weather:
+  /api/v1.0/artifact/decomposeByLevel:
+    post:
+      tags:
+      - artifact-controller
+      operationId: get
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactDecomposeByLevelRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactDecompositionResponse'
+  /api/v1.0/artifact/dependency:
     get:
       tags:
-      - Current Weather Data
-      summary: "Call current weather data for one location"
-      description: "Access current weather data for any location on Earth including over 200,000 cities! Current weather is frequently updated based on global models and data from more than 40,000 weather stations."
-      operationId: CurrentWeatherData
+      - artifact-controller
+      operationId: get_1
       parameters:
-        - $ref: '#/components/parameters/q'
-        - $ref: '#/components/parameters/id'
-        - $ref: '#/components/parameters/lat'
-        - $ref: '#/components/parameters/lon'
-        - $ref: '#/components/parameters/zip'
-        - $ref: '#/components/parameters/units'
-        - $ref: '#/components/parameters/lang'
-        - $ref: '#/components/parameters/mode'
-
+      - name: portfolioId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: portfolioInsideDependency
+        in: query
+        required: false
+        schema:
+          type: boolean
       responses:
-        "200":
-          description: Successful response
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactDependencyResponse'
+  /api/v1.0/artifact/{artifactId}:
+    get:
+      tags:
+      - artifact-controller
+      operationId: get_2
+      parameters:
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactDecompositionResponse'
+  /api/v1.0/artifact/{artifactId}/audit/{order}:
+    get:
+      tags:
+      - artifact-controller
+      operationId: getArtifactHistory
+      parameters:
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: order
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactDeltaResponse'
+  /api/v1.0/artifact/updateDrillDown:
+    post:
+      tags:
+      - artifact-controller
+      operationId: updateDrillDown
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrillDownRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/artifact/updateLocation:
+    post:
+      tags:
+      - artifact-controller
+      operationId: updateLocation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactLocationRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+  /api/v1.0/artifact/librarySearchView:
+    post:
+      tags:
+      - artifact-controller
+      operationId: getDependencyUsage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryViewRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DependencyResponse'
+  /api/v1.0/artifact/libraryUsage:
+    post:
+      tags:
+      - artifact-controller
+      operationId: getDependencyUsage_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LibraryUsageRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DependencyResponse'
+  /api/v1.0/artifact/createRelation:
+    post:
+      tags:
+      - artifact-controller
+      operationId: createRelation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactRelationRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/artifact/{artifactId}/Dependency:
+    post:
+      tags:
+      - artifact-controller
+      operationId: getDependency
+      parameters:
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DependencyRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DependencyResponse'
+  /api/v1.0/artifact/updateArtifact/{artifactId}:
+    put:
+      tags:
+      - artifact-controller
+      operationId: updateArtifact
+      parameters:
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArtifactRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/artifact/{artifact}/database/{db}:
+    post:
+      tags:
+      - artifact-controller
+      operationId: mapDbNameWithApp
+      parameters:
+      - name: artifact
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: db
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1.0/artifacts:
+    get:
+      tags:
+      - artifact-controller
+      operationId: artifacts
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: searchId
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactsResponse'
+  /api/v1.0/artifact/auditByLevel:
+    post:
+      tags:
+      - artifact-controller
+      operationId: getArtifactHistoryByLevel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactAuditByLevelRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ArtifactDeltaResponse'
+  /api/v1.0/artifact/updateStatus/{artifactId}:
+    put:
+      tags:
+      - artifact-controller
+      operationId: updateArtifactStatus
+      parameters:
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/complianceScan/{key}:
+    get:
+      tags:
+      - compliance-keys-controller
+      operationId: get_3
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComplianceResponse'
+    post:
+      tags:
+      - compliance-keys-controller
+      operationId: update
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComplianceResponse'
+  /api/v1.0/compliancekeys:
+    get:
+      tags:
+      - compliance-keys-controller
+      operationId: getAllCompliancekeys
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ComplianceKeysResponse'
+    post:
+      tags:
+      - compliance-keys-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplianceKeysRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/addCompliance:
+    post:
+      tags:
+      - compliance-keys-controller
+      operationId: addCompliance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplianceAddRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/compliancekeys/impactedApplication:
+    get:
+      tags:
+      - compliance-keys-controller
+      operationId: getImpactedApplication
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ImpactedApplicationResponse'
+  /api/v1.0/compliancekeys/{compliancekeysId}:
+    put:
+      tags:
+      - compliance-keys-controller
+      operationId: updateComplianceKeys
+      parameters:
+      - name: compliancekeysId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplianceKeysRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/compliancekeys/updateStatus/{compliancekeysId}:
+    put:
+      tags:
+      - compliance-keys-controller
+      operationId: updateComplianceKeysStatus
+      parameters:
+      - name: compliancekeysId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/createCustomerURN:
+    post:
+      tags:
+      - customer-account-controller
+      operationId: createCustomerURN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1.0/dashboard:
+    get:
+      tags:
+      - dashboard-controller
+      operationId: getDasboard
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DashboardDTO'
+  /api/v1.0/domain/{domainId}:
+    get:
+      tags:
+      - domain-controller
+      operationId: domain
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DomainsResponse'
+    put:
+      tags:
+      - domain-controller
+      operationId: updateDomain
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDomainRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+    delete:
+      tags:
+      - domain-controller
+      operationId: deleteDomain
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/domain:
+    post:
+      tags:
+      - domain-controller
+      operationId: create_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDomainRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CreateDomainResponse'
+  /api/v1.0/technologyDomains:
+    get:
+      tags:
+      - domain-controller
+      operationId: technologyDomains
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DomainsResponse'
+  /api/v1.0/domain/updateStatus/{domainId}:
+    put:
+      tags:
+      - domain-controller
+      operationId: updateDomainStatus
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/domain/{domainId}/artifact/{artifactId}/attach:
+    post:
+      tags:
+      - domain-controller
+      operationId: attachArtifacts
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AttachDomainResponse'
+  /api/v1.0/domain/{domainId}/attach-multiple-artifact:
+    post:
+      tags:
+      - domain-controller
+      operationId: attachMultipleArtifacts
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkArtifactAttachRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AttachmultiDomainResponse'
+  /api/v1.0/domain/{domainId}/artifact/{artifactId}:
+    delete:
+      tags:
+      - domain-controller
+      operationId: deletDomainArtifactRelation
+      parameters:
+      - name: domainId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: artifactId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/domains:
+    get:
+      tags:
+      - domain-controller
+      operationId: domains
+      parameters:
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DomainsResponse'
+  /api/v1.0/uploadProject/{agentType}:
+    post:
+      tags:
+      - project-controller
+      operationId: uploadProject
+      parameters:
+      - name: agentType
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filePath:
+                  type: string
+                  format: binary
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/project/update/{projectId}:
+    put:
+      tags:
+      - project-controller
+      operationId: updateProject
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/projects:
+    get:
+      tags:
+      - project-controller
+      operationId: projects
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProjectsResponse'
+  /api/v1.0/project/updateStatus/{projectId}:
+    put:
+      tags:
+      - project-controller
+      operationId: updateProjectStatus
+      parameters:
+      - name: projectId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/role:
+    get:
+      tags:
+      - role-controller
+      operationId: getAllRole
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RoleResponse'
+  /api/v1.0/complianceRules:
+    get:
+      tags:
+      - rule-controller
+      operationId: getComplianceRules
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+  /api/v1.0/floutedRules:
+    post:
+      tags:
+      - rule-controller
+      operationId: getFloutedRules
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FloutedRuleRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+  /api/v1.0/rule/{ruleId}:
+    put:
+      tags:
+      - rule-controller
+      operationId: updateRule
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRuleRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/rule:
+    post:
+      tags:
+      - rule-controller
+      operationId: createRule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RuleCreateRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/rule/ruleLevel:
+    get:
+      tags:
+      - rule-controller
+      operationId: getAllRuleLevels
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleLevelResponse'
+  /api/v1.0/rules:
+    get:
+      tags:
+      - rule-controller
+      operationId: getAllRules
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleResponse'
+  /api/v1.0/rule/ruleAlert:
+    get:
+      tags:
+      - rule-controller
+      operationId: getRuleAlert
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleAlertResponse'
+  /api/v1.0/rule/ruleTriggerType/{selectedRuleLevel}:
+    get:
+      tags:
+      - rule-controller
+      operationId: getRuleTriggerType
+      parameters:
+      - name: selectedRuleLevel
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleTriggerTypeResponse'
+  /api/v1.0/rule/ruleActionType:
+    get:
+      tags:
+      - rule-controller
+      operationId: getRuleActionType
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleActionTypeResponse'
+  /api/v1.0/rule/updateStatus/{ruleId}:
+    put:
+      tags:
+      - rule-controller
+      operationId: updateRuleStatus
+      parameters:
+      - name: ruleId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/rule/ruleLevel/{selectedRuleLevel}:
+    get:
+      tags:
+      - rule-controller
+      operationId: getLowerLevelsForSelectedRuleLevel
+      parameters:
+      - name: selectedRuleLevel
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RuleLevelResponse'
+  /api/v1.0/search/{keyword}:
+    get:
+      tags:
+      - search-controller
+      operationId: get_4
+      parameters:
+      - name: keyword
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WebAsyncTaskGlobalSearchResponse'
+  /api/v1.0/searchToBreadCrum/{name}/{type}:
+    get:
+      tags:
+      - search-controller
+      operationId: GlobalSeagetLibraryParentArtifact
+      parameters:
+      - name: name
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GSParentArtifactResponse'
+  /api/v1.0/user:
+    post:
+      tags:
+      - user-controller
+      operationId: create_2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/users/{userId}:
+    put:
+      tags:
+      - user-controller
+      operationId: updateUser
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/users/getUser/{userId}:
+    get:
+      tags:
+      - user-controller
+      operationId: getUser
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /api/v1.0/users/changePassword:
+    put:
+      tags:
+      - user-controller
+      operationId: changePassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/users/getUserByToken:
+    get:
+      tags:
+      - user-controller
+      operationId: getUserByToken
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /api/v1.0/users/updateStatus/{userId}:
+    put:
+      tags:
+      - user-controller
+      operationId: updateUserStatus
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/users/profile:
+    get:
+      tags:
+      - user-controller
+      operationId: getUserProfile
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProfileResponse'
+  /api/v1.0/logout:
+    post:
+      tags:
+      - user-controller
+      operationId: logout
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/users:
+    get:
+      tags:
+      - user-controller
+      operationId: getUsers
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+  /api/v1.0/supportedplatform:
+    get:
+      tags:
+      - user-controller
+      operationId: getSupportedPlatform
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupportedPlatformResponse'
+  /api/v1.0/customer:
+    post:
+      tags:
+      - customer-controller
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+  /api/v1.0/customerDomains:
+    get:
+      tags:
+      - customer-controller
+      operationId: getCustomerDomains
+      parameters:
+      - name: id
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerDomainResponse'
+  /api/v1.0/customer/updateStatus/{custId}:
+    put:
+      tags:
+      - customer-controller
+      operationId: updateCustomerDomainStatus
+      parameters:
+      - name: custId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/customer/update/{custId}:
+    put:
+      tags:
+      - customer-controller
+      operationId: updateCustomerDomain
+      parameters:
+      - name: custId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomerRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/customer/applications:
+    get:
+      tags:
+      - customer-controller
+      operationId: getCustomerApplications
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CustomerApplicationsResponse'
+  /api/v1.0/resetForgotPassword:
+    post:
+      tags:
+      - login-controller
+      operationId: resetForgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/signUp:
+    post:
+      tags:
+      - login-controller
+      operationId: signUp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/resetSignUpToken:
+    post:
+      tags:
+      - login-controller
+      operationId: resetSignUpToken
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /api/v1.0/login:
+    post:
+      tags:
+      - login-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+  /api/v1.0/forgotPassword:
+    post:
+      tags:
+      - login-controller
+      operationId: forgotPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GlobalResponse'
+  /v2/api-docs:
+    get:
+      tags:
+      - swagger-2-controller
+      operationId: getDocumentation
+      parameters:
+      - name: group
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/200'
-        "404":
-          description: Not found response
-          content:
-            text/plain:
-              schema:
-                title: Weather not found
                 type: string
-                example: Not found
-security:
-- app_id: []
-
-tags:
-  - name: Current Weather Data
-    description: "Get current weather details"
-
-externalDocs:
-  description: API Documentation
-  url: https://openweathermap.org/api
-
+            application/hal+json:
+              schema:
+                type: string
+  /configuration/ui:
+    get:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_2
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    put:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_4
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    post:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_1
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    delete:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_5
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    options:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_3
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    head:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration_6
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+    patch:
+      tags:
+      - api-resource-controller
+      operationId: uiConfiguration
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UiConfiguration'
+  /swagger-resources:
+    get:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_2
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    put:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_4
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    post:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_1
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    delete:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_5
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    options:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_3
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    head:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources_6
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+    patch:
+      tags:
+      - api-resource-controller
+      operationId: swaggerResources
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SwaggerResource'
+  /configuration/security:
+    get:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_2
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    put:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_4
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    post:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_1
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    delete:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_5
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    options:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_3
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    head:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration_6
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
+    patch:
+      tags:
+      - api-resource-controller
+      operationId: securityConfiguration
+      responses:
+        400:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiErrorVO'
+        200:
+          description: default response
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SecurityConfiguration'
 components:
-
-  parameters:
-    q:
-      name: q
-      in: query
-      description: "**City name**. *Example: London*. You can call by city name, or by city name and country code. The API responds with a list of results that match a searching word. For the query value, type the city name and optionally the country code divided by a comma; use ISO 3166 country codes."
-      schema:
-        type: string
-    id:
-      name: id
-      in: query
-      description: "**City ID**. *Example: `2172797`*. You can call by city ID. The API responds with the exact result. The List of city IDs can be downloaded [here](http://bulk.openweathermap.org/sample/). You can include multiple cities in this parameter &mdash; just separate them by commas. The limit of locations is 20. *Note: A single ID counts as a one API call. So, if you have city IDs, it's treated as 3 API calls.*"
-      schema:
-        type: string
-
-    lat:
-      name: lat
-      in: query
-      description: "**Latitude**. *Example: 35*. The latitude coordinate of the location of your interest. Must use with `lon`."
-      schema:
-        type: string
-
-    lon:
-      name: lon
-      in: query
-      description: "**Longitude**. *Example: 139*. Longitude coordinate of the location of your interest. Must use with `lat`."
-      schema:
-        type: string
-
-    zip:
-      name: zip
-      in: query
-      description: "**Zip code**. Search by zip code. *Example: 95050,us*. Please note that if the country is not specified, the search uses USA as a default."
-      schema:
-        type: string
-
-    units:
-      name: units
-      in: query
-      description: '**Units**. *Example: imperial*. Possible values: `standard`, `metric`, and `imperial`. When you do not use the `units` parameter, the format is `standard` by default.'
-      schema:
-        type: string
-        enum: [standard, metric, imperial]
-        default: "imperial"
-
-    lang:
-      name: lang
-      in: query
-      description: '**Language**. *Example: en*. You can use lang parameter to get the output in your language. We support the following languages that you can use with the corresponded lang values: Arabic - `ar`, Bulgarian - `bg`, Catalan - `ca`, Czech - `cz`, German - `de`, Greek - `el`, English - `en`, Persian (Farsi) - `fa`, Finnish - `fi`, French - `fr`, Galician - `gl`, Croatian - `hr`, Hungarian - `hu`, Italian - `it`, Japanese - `ja`, Korean - `kr`, Latvian - `la`, Lithuanian - `lt`, Macedonian - `mk`, Dutch - `nl`, Polish - `pl`, Portuguese - `pt`, Romanian - `ro`, Russian - `ru`, Swedish - `se`, Slovak - `sk`, Slovenian - `sl`, Spanish - `es`, Turkish - `tr`, Ukrainian - `ua`, Vietnamese - `vi`, Chinese Simplified - `zh_cn`, Chinese Traditional - `zh_tw`.'
-      schema:
-        type: string
-        enum: [ar, bg, ca, cz, de, el, en, fa, fi, fr, gl, hr, hu, it, ja, kr, la, lt, mk, nl, pl, pt, ro, ru, se, sk, sl, es, tr, ua, vi, zh_cn, zh_tw]
-        default: "en"
-
-    mode:
-      name: mode
-      in: query
-      description: "**Mode**. *Example: html*. Determines the format of the response. Possible values are `json`, `xml`, and `html`. If the mode parameter is empty, the format is `json` by default."
-      schema:
-        type: string
-        enum: [json, xml, html]
-        default: "json"
-
   schemas:
-    "200":
-      title: Successful response
+    ApiErrorVO:
+      type: object
+    ArtifactDecomposeByLevelRequest:
       type: object
       properties:
-        coord:
-          $ref: '#/components/schemas/Coord'
-        weather:
+        artifactId:
+          type: integer
+          format: int64
+        artifactType:
+          type: string
+        levelId:
+          type: integer
+          format: int64
+        levelType:
+          type: string
+    ArtifactDecompositionResponse:
+      type: object
+      properties:
+        artifactLibrary:
           type: array
           items:
-            $ref: '#/components/schemas/Weather'
-          description: (more info Weather condition codes)
-        base:
+            $ref: '#/components/schemas/LibraryDTO'
+    LibraryDTO:
+      type: object
+      properties:
+        artifactId:
+          type: integer
+          format: int64
+        libraryId:
           type: string
-          description: Internal parameter
-          example: cmc stations
-        main:
-          $ref: '#/components/schemas/Main'
-        visibility:
-          type: integer
-          description: Visibility, meter
-          example: 16093
-        wind:
-          $ref: '#/components/schemas/Wind'
-        clouds:
-          $ref: '#/components/schemas/Clouds'
-        rain:
-          $ref: '#/components/schemas/Rain'
-        snow:
-          $ref: '#/components/schemas/Snow'
-        dt:
-          type: integer
-          description: Time of data calculation, unix, UTC
-          format: int32
-          example: 1435658272
-        sys:
-          $ref: '#/components/schemas/Sys'
-        id:
-          type: integer
-          description: City ID
-          format: int32
-          example: 2172797
+        libraryURN:
+          type: string
         name:
           type: string
-          example: Cairns
-        cod:
+        displayName:
+          type: string
+        type:
+          type: string
+        auditDate:
+          type: string
+        toggled:
+          type: boolean
+        complianceStatus:
           type: integer
-          description: Internal parameter
           format: int32
-          example: 200
-    Coord:
-      title: Coord
+        id:
+          type: integer
+          format: int64
+        change:
+          type: boolean
+          writeOnly: true
+        child:
+          type: boolean
+        deleted:
+          type: boolean
+        added:
+          type: boolean
+        changed:
+          type: boolean
+        subType:
+          type: string
+        compliance:
+          type: integer
+          format: int32
+          writeOnly: true
+    ArtifactDependencyDTO:
       type: object
       properties:
-        lon:
-          type: number
-          description: City geo location, longitude
-          example: 145.77000000000001
-        lat:
-          type: number
-          description: City geo location, latitude
-          example: -16.920000000000002
-    Weather:
-      title: Weather
+        from:
+          type: integer
+          format: int64
+        to:
+          type: integer
+          format: int64
+        isManual:
+          type: integer
+          format: int32
+    ArtifactDependencyResponse:
+      type: object
+      properties:
+        artifactList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactList'
+        artifactDependencyList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactDependencyDTO'
+    ArtifactList:
       type: object
       properties:
         id:
           type: integer
-          description: Weather condition id
-          format: int32
-          example: 803
-        main:
+          format: int64
+        name:
           type: string
-          description: Group of weather parameters (Rain, Snow, Extreme etc.)
-          example: Clouds
+        type:
+          type: string
+        subType:
+          type: string
+        location:
+          type: string
+        gdprCount:
+          type: integer
+          format: int32
+        vulnerabilityAndCveCount:
+          type: integer
+          format: int32
+        delta:
+          type: boolean
+        complianceStatus:
+          type: integer
+          format: int32
+        status:
+          type: integer
+          format: int32
+    ArtifactDeltaResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        type:
+          type: string
+        auditDate:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryDTO'
+        complianceStatus:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        subType:
+          type: string
+    DrillDownRequest:
+      type: object
+      properties:
+        artifactId:
+          type: integer
+          format: int64
+        levelIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+    GlobalResponse:
+      type: object
+      properties:
+        message:
+          type: string
+    ArtifactLocation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        location:
+          type: string
+    ArtifactLocationRequest:
+      type: object
+      properties:
+        artifactLocation:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactLocation'
+    LibraryViewRequest:
+      type: object
+      properties:
+        layerType:
+          type: string
+        layerId:
+          type: integer
+          format: int64
+        layerSubType:
+          type: string
+        searcName:
+          type: string
+    DependencyDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        type:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/LibraryDTO'
+        dependencyType:
+          type: string
+        complianceStatus:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        subType:
+          type: string
+    DependencyResponse:
+      type: object
+      properties:
+        sourceDependency:
+          $ref: '#/components/schemas/DependencyDTO'
+        destinationDependency:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependencyDTO'
+    LibraryUsageRequest:
+      type: object
+      properties:
+        artifactId:
+          type: integer
+          format: int64
+        artifactType:
+          type: string
+        layerType:
+          type: string
+        layerURNs:
+          type: array
+          items:
+            type: string
+    ArtifactRelationRequest:
+      type: object
+      properties:
+        sourceArtifactId:
+          type: integer
+          format: int64
+        destinationArtifactIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+    DependencyRequest:
+      type: object
+      properties:
+        dependencyArtifactIDs:
+          type: array
+          items:
+            type: integer
+            format: int64
+        sourceLevel:
+          type: string
+    UpdateArtifactRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        businessName:
+          type: string
+    ArtifactsResponse:
+      type: object
+      properties:
+        artifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactList'
+    ArtifactAuditByLevelRequest:
+      type: object
+      properties:
+        artifactId:
+          type: integer
+          format: int64
+        artifactType:
+          type: string
+        levelId:
+          type: integer
+          format: int64
+        levelType:
+          type: string
+        auditTime:
+          type: string
+        levelAuditStatus:
+          type: integer
+          format: int32
+    ComplianceDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        type:
+          type: string
+        scanKeys:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        id:
+          type: integer
+          format: int64
+        subType:
+          type: string
+    ComplianceResponse:
+      type: object
+      properties:
+        complianceArtifacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceDTO'
+    ComplianceKeysRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        subType:
+          type: string
+        riskScore:
+          type: integer
+          format: int32
+        comments:
+          type: string
+        status:
+          type: integer
+          format: int32
+    ComplianceAddRequest:
+      type: object
+      properties:
+        complianceIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        artifactId:
+          type: integer
+          format: int64
+        layerIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        layerType:
+          type: string
+    ImpactedApplicationDto:
+      type: object
+      properties:
+        artifactname:
+          type: string
+        type:
+          type: string
+        subType:
+          type: string
+        complianceStatus:
+          type: integer
+          format: int32
+        riskScore:
+          type: array
+          items:
+            type: integer
+            format: int32
+        layerDetails:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    ImpactedApplicationResponse:
+      type: object
+      properties:
+        impactedApplicationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImpactedApplicationDto'
+    ComplianceKeysDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+        subType:
+          type: string
+        riskScore:
+          type: integer
+          format: int32
+        comments:
+          type: string
+        status:
+          type: integer
+          format: int32
+        custInfos:
+          type: string
+        userRole:
+          type: string
+        complianceType:
+          type: string
+        createdby:
+          type: string
+        changeStatus:
+          type: boolean
+        allowedEdit:
+          type: boolean
+    ComplianceKeysResponse:
+      type: object
+      properties:
+        complianceKeys:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplianceKeysDto'
+    ApplicationAuditDto:
+      type: object
+      properties:
+        applicationaudit:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    ApplicationAuditResponse:
+      type: object
+      properties:
+        applicationAuditList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationAuditDto'
+    ApplicationDto:
+      type: object
+      properties:
+        name:
+          type: string
+        subType:
+          type: string
+        complianceStatus:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+    ApplicationStatusDto:
+      type: object
+      properties:
+        applicationStatus:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: integer
+              format: int32
+    ApplicationUsageDTO:
+      type: object
+      properties:
+        application:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        database:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+    CustomerApplicationDto:
+      type: object
+      properties:
+        lastLogin:
+          type: string
+        totalApplications:
+          type: integer
+          format: int32
+        applicationDetail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationDto'
+        totalDatabase:
+          type: integer
+          format: int32
+        dbDetail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApplicationDto'
+    DashboardDTO:
+      type: object
+      properties:
+        appStack:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerApplicationDto'
+        name:
+          type: string
+        totalStat:
+          $ref: '#/components/schemas/StatReportDTO'
+        applicationUsage:
+          $ref: '#/components/schemas/ApplicationUsageDTO'
+        ruleNotifications:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleNotificationDto'
+        applicationStatusDto:
+          $ref: '#/components/schemas/ApplicationStatusDto'
+        impactedApplication:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardImpactedApplicationDto'
+        gdprUsageResponses:
+          $ref: '#/components/schemas/GdprUsageResponse'
+        applicationAuditResponse:
+          $ref: '#/components/schemas/ApplicationAuditResponse'
+        lastLogin:
+          type: string
+    DashboardImpactedApplicationDto:
+      type: object
+      properties:
+        artifactname:
+          type: string
+        type:
+          type: string
+        subType:
+          type: string
+        complianceStatus:
+          type: integer
+          format: int32
+        riskScore:
+          type: array
+          items:
+            type: integer
+            format: int32
+    GdprUsageDto:
+      type: object
+      properties:
+        artifactname:
+          type: string
+        type:
+          type: string
+        subType:
+          type: string
+        riskScore:
+          type: array
+          items:
+            type: integer
+            format: int32
+        layerDetails:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    GdprUsageResponse:
+      type: object
+      properties:
+        gdprUsageDtoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/GdprUsageDto'
+    RuleNotificationDto:
+      type: object
+      properties:
+        ruleName:
+          type: string
+        dateTime:
+          type: string
+        recent:
+          type: boolean
+        type:
+          type: string
+        subType:
+          type: string
+        entityType:
+          type: string
+        parentLayer:
+          type: string
+        triggerType:
+          type: string
+        id:
+          type: integer
+          format: int64
+    StatReportDTO:
+      type: object
+      properties:
+        projects:
+          type: integer
+          format: int32
+        artifacts:
+          type: integer
+          format: int32
+        applications:
+          type: integer
+          format: int32
+        databases:
+          type: integer
+          format: int32
+        java:
+          type: integer
+          format: int32
+        csharp:
+          type: integer
+          format: int32
+        node:
+          type: integer
+          format: int32
+        vb:
+          type: integer
+          format: int32
+        mysql:
+          type: integer
+          format: int32
+        mssql:
+          type: integer
+          format: int32
+        oracle:
+          type: integer
+          format: int32
+        kompliance:
+          type: integer
+          format: int32
+    DomainListDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        dominId:
+          type: string
+        dataType:
+          type: string
+        desc:
+          type: string
+        complianceStatus:
+          type: integer
+          format: int32
+        subDomain:
+          type: integer
+          format: int32
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        artifactCount:
+          type: integer
+          format: int32
+        subType:
+          type: string
+        status:
+          type: integer
+          format: int32
+    DomainsResponse:
+      type: object
+      properties:
+        domainList:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainListDTO'
+    CreateDomainRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
         description:
           type: string
-          description: Weather condition within the group
-          example: broken clouds
-        icon:
-          type: string
-          description: Weather icon id
-          example: 04n
-    Main:
-      title: Main
+        parentId:
+          type: integer
+          format: int64
+    CreateDomainResponse:
       type: object
       properties:
-        temp:
-          type: number
-          description: 'Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
-          example: 293.25
-        pressure:
-          type: integer
-          description: Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
-          format: int32
-          example: 1019
-        humidity:
-          type: integer
-          description: Humidity, %
-          format: int32
-          example: 83
-        temp_min:
-          type: number
-          description: 'Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
-          example: 289.81999999999999
-        temp_max:
-          type: number
-          description: 'Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
-          example: 295.37
-        sea_level:
-          type: number
-          description: Atmospheric pressure on the sea level, hPa
-          example: 984
-        grnd_level:
-          type: number
-          description: Atmospheric pressure on the ground level, hPa
-          example: 990
-    Wind:
-      title: Wind
-      type: object
-      properties:
-        speed:
-          type: number
-          description: 'Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.'
-          example: 5.0999999999999996
-        deg:
-          type: integer
-          description: Wind direction, degrees (meteorological)
-          format: int32
-          example: 150
-    Clouds:
-      title: Clouds
-      type: object
-      properties:
-        all:
-          type: integer
-          description: Cloudiness, %
-          format: int32
-          example: 75
-    Rain:
-      title: Rain
-      type: object
-      properties:
-        3h:
-          type: integer
-          description: Rain volume for the last 3 hours
-          format: int32
-          example: 3
-    Snow:
-      title: Snow
-      type: object
-      properties:
-        3h:
-          type: number
-          description: Snow volume for the last 3 hours
-          example: 6
-    Sys:
-      title: Sys
-      type: object
-      properties:
-        type:
-          type: integer
-          description: Internal parameter
-          format: int32
-          example: 1
         id:
           type: integer
-          description: Internal parameter
+          format: int64
+    UpdateDomainRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        description:
+          type: string
+        parentId:
+          type: integer
+          format: int64
+    AttachDomainResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+    BulkArtifactAttachRequest:
+      required:
+      - artifactIds
+      type: object
+      properties:
+        artifactIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+    AttachmultiDomainResponse:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: integer
+            format: int64
+    UpdateProjectRequest:
+      type: object
+      properties:
+        projectName:
+          type: string
+        projectDesc:
+          type: string
+    ProjectListDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        project_name:
+          type: string
+        artifactName:
+          type: string
+        artifactType:
+          type: string
+        artifactSubType:
+          type: string
+        status:
+          type: integer
           format: int32
-          example: 8166
-        message:
-          type: number
-          description: Internal parameter
-          example: 0.0166
+        project_desc:
+          type: string
+        id:
+          type: integer
+          format: int64
+    ProjectsResponse:
+      type: object
+      properties:
+        projectList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectListDTO'
+    RoleDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    RoleResponse:
+      type: object
+      properties:
+        role:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleDTO'
+    RuleDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        rulename:
+          type: string
+        artifactType:
+          type: string
+        artifactName:
+          type: string
+        elementType:
+          type: string
+        elementName:
+          type: string
+        triggerType:
+          type: string
+        emailAlert:
+          type: string
+        httpAlert:
+          type: string
+        createdby:
+          type: string
+        status:
+          type: integer
+          format: int32
+    RuleResponse:
+      type: object
+      properties:
+        rules:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/RuleDTO'
+    FloutedRuleRequest:
+      type: object
+      properties:
+        level:
+          type: array
+          items:
+            type: string
+        txtSearch:
+          type: array
+          items:
+            type: string
+    UpdateRuleRequest:
+      type: object
+      properties:
+        ruleName:
+          type: string
+        artifactTypeName:
+          type: string
+        artifactName:
+          type: string
+        elementTypeName:
+          type: string
+        elementName:
+          type: string
+        triggerTypeName:
+          type: string
+        emailAlert:
+          type: string
+        httpAlert:
+          type: string
+    RuleCreateRequest:
+      type: object
+      properties:
+        ruleName:
+          type: string
+        artifactTypeName:
+          type: string
+        artifactName:
+          type: string
+        elementTypeName:
+          type: string
+        elementName:
+          type: string
+        triggerTypeName:
+          type: string
+        emailAlert:
+          type: string
+        httpAlert:
+          type: string
+    RuleLevelDto:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+          format: int64
+        parent:
+          $ref: '#/components/schemas/RuleLevelDto'
+    RuleLevelResponse:
+      type: object
+      properties:
+        ruleLevel:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleLevelDto'
+    RuleAlertDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ruleName:
+          type: string
+        emailTo:
+          type: string
+        slackKey:
+          type: string
+        slack_value:
+          type: string
+    RuleAlertResponse:
+      type: object
+      properties:
+        ruleAlert:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleAlertDTO'
+    RuleTriggerTypeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        ruleLevel:
+          type: string
+    RuleTriggerTypeResponse:
+      type: object
+      properties:
+        ruleTriggerType:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleTriggerTypeDTO'
+    RuleActionTypeDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+    RuleActionTypeResponse:
+      type: object
+      properties:
+        ruleActionType:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleActionTypeDTO'
+    AsyncTaskExecutor:
+      type: object
+    BeanFactory:
+      type: object
+    WebAsyncTaskGlobalSearchResponse:
+      type: object
+      properties:
+        callable:
+          type: object
+        timeout:
+          type: integer
+          format: int64
+        executor:
+          $ref: '#/components/schemas/AsyncTaskExecutor'
+        beanFactory:
+          $ref: '#/components/schemas/BeanFactory'
+    GSParent:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+          format: int64
+    GSParentArtifact:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: integer
+          format: int64
+        gsParent:
+          type: array
+          items:
+            $ref: '#/components/schemas/GSParent'
+    GSParentArtifactResponse:
+      type: object
+      properties:
+        globalSearchWithArtifact:
+          type: array
+          items:
+            $ref: '#/components/schemas/GSParentArtifact'
+    CreateUserRequest:
+      required:
+      - confirmPassword
+      - email
+      - firstName
+      - lastName
+      - password
+      - role
+      type: object
+      properties:
+        email:
+          pattern: ^[A-Za-z0-9+_.-]+@(.+)$
+          type: string
+        firstName:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        lastName:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        address:
+          maxLength: 100
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        password:
+          maxLength: 50
+          minLength: 3
+          type: string
+        role:
+          type: string
+        zipCode:
+          maxLength: 50
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        city:
+          maxLength: 50
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        state:
+          maxLength: 50
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        country:
+          maxLength: 50
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        isActive:
+          type: integer
+          format: int32
+        phoneNumber:
+          type: string
+        confirmPassword:
+          maxLength: 50
+          minLength: 3
+          type: string
+    UserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        email:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        address:
+          type: string
+        password:
+          type: string
+        custInfos:
+          type: string
+        role:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
         country:
           type: string
-          description: Country code (GB, JP etc.)
-          example: AU
-        sunrise:
+        isActive:
+          type: boolean
+        phoneNumber:
+          type: string
+        confirmPassword:
+          type: string
+    UserResponse:
+      type: object
+      properties:
+        userDTO:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDTO'
+    ChangePasswordRequest:
+      required:
+      - confirmNewPassword
+      - newPassword
+      - oldPassword
+      type: object
+      properties:
+        oldPassword:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        newPassword:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        confirmNewPassword:
+          maxLength: 25
+          minLength: 3
+          pattern: (?=.*[^ ])^[a-zA-Z0-9 ]+$
+          type: string
+        email:
+          type: string
+    ProfileResponse:
+      type: object
+      properties:
+        profile:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: object
+    SupportedPlatformResponse:
+      type: object
+      properties:
+        supportedPlatform:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    CustomerRequest:
+      required:
+      - domainName
+      type: object
+      properties:
+        domainName:
+          type: string
+        ownerFirstName:
+          type: string
+        ownerLaststName:
+          type: string
+        contactEmail:
+          type: string
+        contactNumber:
+          type: string
+        address:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        status:
           type: integer
-          description: Sunrise time, unix, UTC
           format: int32
-          example: 1435610796
-        sunset:
+        companyName:
+          type: string
+    CustomerResponse:
+      type: object
+      properties:
+        customerId:
           type: integer
-          description: Sunset time, unix, UTC
+          format: int64
+    CustomerDomainDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        custUrn:
+          type: string
+        ownerFirstName:
+          type: string
+        ownerLastName:
+          type: string
+        contactEmail:
+          type: string
+        contactNumber:
+          type: string
+        address:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        status:
+          type: integer
           format: int32
-          example: 1435650870
-
-  securitySchemes:
-    app_id:
-      type: apiKey
-      description: "API key to authorize requests. (If you don't have an API key, get one at https://openweathermap.org/. See https://idratherbewriting.com/learnapidoc/docapis_get_auth_keys.html for details.)"
-      name: appid
-      in: query
+        companyName:
+          type: string
+    CustomerDomainResponse:
+      type: object
+      properties:
+        customerDomainDTO:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerDomainDTO'
+    UpdateCustomerRequest:
+      type: object
+      properties:
+        ownerFirstName:
+          type: string
+        ownerLaststName:
+          type: string
+        contactEmail:
+          type: string
+        contactNumber:
+          type: string
+        address:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        status:
+          type: integer
+          format: int32
+        companyName:
+          type: string
+    CustomerApplicationsResponse:
+      type: object
+      properties:
+        customerApplication:
+          $ref: '#/components/schemas/CustomerApplicationDto'
+    SignUpRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+    LoginRequest:
+      required:
+      - password
+      - userEmail
+      type: object
+      properties:
+        userEmail:
+          pattern: ^[A-Za-z0-9+_.-]+@(.+)$
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        userFirstName:
+          type: string
+        userLastName:
+          type: string
+        userRole:
+          type: string
+    UiConfiguration:
+      type: object
+      properties:
+        validatorUrl:
+          type: string
+        docExpansion:
+          type: string
+        apisSorter:
+          type: string
+        defaultModelRendering:
+          type: string
+        jsonEditor:
+          type: boolean
+        showRequestHeaders:
+          type: boolean
+    SwaggerResource:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+        swaggerVersion:
+          type: string
+    SecurityConfiguration:
+      type: object
+      properties:
+        clientId:
+          type: string
+        clientSecret:
+          type: string
+        realm:
+          type: string
+        appName:
+          type: string
+        apiKey:
+          type: string
+        apiKeyVehicle:
+          type: string
+        scopeSeparator:
+          type: string
+        apiKeyName:
+          type: string
